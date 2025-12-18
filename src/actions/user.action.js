@@ -1,5 +1,6 @@
 import { cartConstants, userConstants } from "./constants";
 import axios from "../helpers/axios";
+import { toast } from "react-toastify";
 
 //action to get addresses of user
 export const getAddress = () => {
@@ -23,7 +24,12 @@ export const getAddress = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
+      dispatch({
+        type: userConstants.GET_USER_ADDRESS_FAILURE,
+        payload: { error: error?.response?.data.error },
+      });
     }
   };
 };
@@ -52,7 +58,12 @@ export const addAddress = (payload) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
+      dispatch({
+        type: userConstants.ADD_USER_ADDRESS_FAILURE,
+        payload: { error: error?.response?.data.error },
+      });
     }
   };
 };
@@ -74,7 +85,8 @@ const getCartItems = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
     }
   };
 };
@@ -101,7 +113,12 @@ export const addOrder = (payload) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
+      dispatch({
+        type: userConstants.ADD_USER_ORDER_FAILURE,
+        payload: { error: error?.response?.data.error },
+      });
     }
   };
 };
@@ -128,7 +145,12 @@ export const getOrders = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
+      dispatch({
+        type: userConstants.GET_USER_ORDER_FAILURE,
+        payload: { error: error?.response?.data.error },
+      });
     }
   };
 };
@@ -154,7 +176,13 @@ export const getOrder = (payload) => {
         });
       }
     } catch (error) {
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
       console.log(error);
+      dispatch({
+        type: userConstants.GET_USER_ORDER_DETAILS_FAILURE,
+        payload: { error: error?.response?.data.error },
+      });
     }
   };
 };

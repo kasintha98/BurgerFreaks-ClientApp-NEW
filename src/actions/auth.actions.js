@@ -53,7 +53,12 @@ export const login = (user) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
+      dispatch({
+        type: authConstants.LOGIN_FAILURE,
+        payload: { errormsg: error?.response?.data.error },
+      });
     }
   };
 };
@@ -81,7 +86,12 @@ export const addAddressSign = (payload) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
+      dispatch({
+        type: userConstants.ADD_USER_ADDRESS_FAILURE,
+        payload: { error: error?.response?.data.error },
+      });
     }
   };
 };
@@ -142,7 +152,12 @@ export const signup = (user) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
+      dispatch({
+        type: authConstants.SIGNUP_FAILURE,
+        payload: { errormsg: error?.response?.data.error },
+      });
     }
   };
 };

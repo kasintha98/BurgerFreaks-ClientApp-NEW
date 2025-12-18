@@ -7,24 +7,36 @@ export const getFeedbacks = (productId) => {
   return async (dispatch) => {
     dispatch({ type: feedbackConstants.GET_FEEDBACK_REQUEST });
 
-    const res = await axios.get(`feedback/getFeedback/${productId}`);
-    console.log(res);
+    try {
+      const res = await axios.get(`feedback/getFeedback/${productId}`);
+      console.log(res);
 
-    if (res.status === 200) {
-      const { feedback } = res.data;
+      if (res.status === 200) {
+        const { feedback } = res.data;
 
-      dispatch({
-        type: feedbackConstants.GET_FEEDBACK_SUCCESS,
-        payload: { feedback: feedback },
-      });
-    } else {
+        dispatch({
+          type: feedbackConstants.GET_FEEDBACK_SUCCESS,
+          payload: { feedback: feedback },
+        });
+      } else {
+        dispatch({
+          type: feedbackConstants.GET_FEEDBACK_FAILURE,
+          payload: {
+            error: res.data.error,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
       dispatch({
         type: feedbackConstants.GET_FEEDBACK_FAILURE,
         payload: {
-          error: res.data.error,
+          error: error?.response?.data.error,
         },
       });
     }
+
   };
 };
 
@@ -68,7 +80,12 @@ export const addFeedback = (feedback) => {
       }
       console.log(res);
     } catch (error) {
-      console.log(error.reponse);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
+      dispatch({
+        type: categoryConstants.ADD_NEW_CATEGORY_FAILURE,
+        payload: error?.response?.data.error,
+      });
     }
   };
 };

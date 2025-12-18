@@ -2,6 +2,7 @@ import React from "react";
 import { cartConstants } from "./constants";
 import store from "../store";
 import axios from "../helpers/axios";
+import { toast } from "react-toastify";
 
 //action to get cart items from database
 const getCartItems = () => {
@@ -20,7 +21,8 @@ const getCartItems = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
     }
   };
 };
@@ -125,7 +127,8 @@ export const removeCartItem = (payload) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data);
+      toast.error("Something went wrong!");
     }
   };
 };
