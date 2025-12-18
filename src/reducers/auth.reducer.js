@@ -53,7 +53,7 @@ export default (state = initState, action) => {
         ...state,
         authenticate: false,
         authenticating: false,
-        error: action.payload.error,
+        error: action?.payload?.error,
         errormsg: action.payload.errormsg,
         message: action.payload.errormsg,
       };
@@ -73,14 +73,14 @@ export default (state = initState, action) => {
     case authConstants.LOGOUT_FAILURE:
       state = {
         ...state,
-        error: action.payload.error,
+        error: action?.payload?.error,
         loading: false,
       };
       break;
     case authConstants.SIGNUP_FAILURE:
       state = {
         ...state,
-        error: action.payload.error,
+        error: action?.payload?.error,
         errormsg: action.payload.errormsg,
       };
       break;

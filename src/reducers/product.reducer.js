@@ -31,7 +31,7 @@ export default (state = initState, action) => {
     case productConstants.GET_SPECIFIC_PRODUCT_BY_SLUG_FAILURE:
       state = {
         ...state,
-        product: action.payload.error,
+        product: {},
         loading: false,
       };
       break;

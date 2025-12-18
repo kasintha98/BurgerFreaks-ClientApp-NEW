@@ -30,7 +30,7 @@ export default (state = initState, action) => {
       state = {
         ...state,
         loading: false,
-        error: action.payload.error,
+        error: action?.payload?.error,
       };
       break;
 
@@ -53,7 +53,7 @@ export default (state = initState, action) => {
       state = {
         ...state,
         loading: false,
-        error: action.payload.error,
+        error: action?.payload?.error,
       };
       break;
 
@@ -76,7 +76,7 @@ export default (state = initState, action) => {
       state = {
         ...state,
         loading: false,
-        error: action.payload.error,
+        error: action?.payload?.error,
       };
       break;
 
@@ -100,7 +100,7 @@ export default (state = initState, action) => {
       state = {
         ...state,
         orderFetching: false,
-        error: action.payload.error,
+        error: action?.payload?.error,
       };
       break;
 
