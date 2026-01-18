@@ -15,10 +15,11 @@ export const getProductsBySlug = (slug) => {
         });
       } else {
         console.log(res);
+        toast.error("Something went wrong!");
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data.error || "Something went wrong!");
     }
 
   };
@@ -43,10 +44,11 @@ export const getSpecificProductBySlug = (slug) => {
           type: productConstants.GET_SPECIFIC_PRODUCT_BY_SLUG_FAILURE,
           payload: res.data.error,
         });
+        toast.error(res.data.error || "Something went wrong!");
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data.error || "Something went wrong!");
       dispatch({
         type: productConstants.GET_SPECIFIC_PRODUCT_BY_SLUG_FAILURE,
         payload: error?.response?.data.error,

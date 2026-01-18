@@ -25,10 +25,11 @@ export const getAllCategory = () => {
             error: res.data.error,
           },
         });
+        toast.error("Something went wrong!");
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data?.error || "Something went wrong!");
       dispatch({
         type: categoryConstants.GET_ALL_CATEGORIES_FAILURE,
         payload: {

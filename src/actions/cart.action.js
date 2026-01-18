@@ -22,7 +22,7 @@ const getCartItems = () => {
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data.error || "Something went wrong!");
     }
   };
 };
@@ -123,12 +123,13 @@ export const removeCartItem = (payload) => {
         const { error } = res.data;
         dispatch({
           type: cartConstants.REMOVE_CART_ITEM_FAILURE,
-          payload: { error },
+          payload: { error: error || "Something went wrong!" },
         });
+        toast.error(error || "Something went wrong!");
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data.error || "Something went wrong!");
     }
   };
 };

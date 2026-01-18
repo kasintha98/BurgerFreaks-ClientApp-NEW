@@ -20,12 +20,13 @@ export const getAddress = () => {
         const { error } = res.data;
         dispatch({
           type: userConstants.GET_USER_ADDRESS_FAILURE,
-          payload: { error },
+          payload: { error: error || "Something went wrong!"},
         });
+        toast.error(error || "Something went wrong!");
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data.error || "Something went wrong!");
       dispatch({
         type: userConstants.GET_USER_ADDRESS_FAILURE,
         payload: { error: error?.response?.data.error },
@@ -54,12 +55,13 @@ export const addAddress = (payload) => {
         const { error } = res.data;
         dispatch({
           type: userConstants.ADD_USER_ADDRESS_FAILURE,
-          payload: { error },
+          payload: { error: error || "Something went wrong!"},
         });
+        toast.error(error || "Something went wrong!");
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data.error || "Something went wrong!");
       dispatch({
         type: userConstants.ADD_USER_ADDRESS_FAILURE,
         payload: { error: error?.response?.data.error },
@@ -86,7 +88,7 @@ const getCartItems = () => {
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data.error || "Something went wrong!");
     }
   };
 };
@@ -109,12 +111,13 @@ export const addOrder = (payload) => {
         const { error } = res.data;
         dispatch({
           type: userConstants.ADD_USER_ORDER_FAILURE,
-          payload: { error },
+          payload: { error: error || "Something went wrong!" },
         });
+        toast.error(error || "Something went wrong!");
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data.error || "Something went wrong!");
       dispatch({
         type: userConstants.ADD_USER_ORDER_FAILURE,
         payload: { error: error?.response?.data.error },
@@ -141,12 +144,13 @@ export const getOrders = () => {
         const { error } = res.data;
         dispatch({
           type: userConstants.GET_USER_ORDER_FAILURE,
-          payload: { error },
+          payload: { error: error || "Something went wrong!" },
         });
+        toast.error(error || "Something went wrong!");
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data.error || "Something went wrong!");
       dispatch({
         type: userConstants.GET_USER_ORDER_FAILURE,
         payload: { error: error?.response?.data.error },
@@ -172,12 +176,13 @@ export const getOrder = (payload) => {
         const { error } = res.data;
         dispatch({
           type: userConstants.GET_USER_ORDER_DETAILS_FAILURE,
-          payload: { error },
+          payload: { error: error || "Something went wrong!" },
         });
+        toast.error(error || "Something went wrong!");
       }
     } catch (error) {
       console.log(error?.response?.data);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data.error || "Something went wrong!");
       console.log(error);
       dispatch({
         type: userConstants.GET_USER_ORDER_DETAILS_FAILURE,
