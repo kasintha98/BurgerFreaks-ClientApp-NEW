@@ -12,7 +12,13 @@ export default function CategoryGallery(props) {
 
   //calling the action to get categories
   useEffect(() => {
-    dispatch(getAllCategory());
+    dispatch(getAllCategory())
+      .then(() => {
+        console.log("Categories loaded successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const renderCategories = (categories) => {

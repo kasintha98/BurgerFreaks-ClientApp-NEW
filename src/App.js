@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     if (!auth.authenticate) {
-      dispatch(isUserLoggedIn());
+      dispatch(isUserLoggedIn()).then(() => {}).catch((error) => {console.log(error);});
     }
   }, [auth.authenticate]);
 

@@ -6,7 +6,7 @@ export default function Feedback(props) {
   return (
     <div>
       {props.feedbacks.map((feedback) => (
-        <Row>
+        <Row key={feedback._id}>
           <Card style={{ width: "100%" }}>
             <Card.Body>
               <Card.Title>

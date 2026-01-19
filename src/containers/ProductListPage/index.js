@@ -16,7 +16,13 @@ export default function ProductListPage(props) {
   useEffect(() => {
     const { match } = props;
 
-    dispatch(getProductsBySlug(match.params.slug));
+    dispatch(getProductsBySlug(match.params.slug))
+      .then(() => {
+        console.log("Products loaded successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   //have to show all the details in the card (rating, price, etc...)
@@ -29,8 +35,8 @@ export default function ProductListPage(props) {
           <Link to={`/product/${product.slug}`}>
             <Card className="text-center" style={{ marginBottom: "15px" }}>
               <Carousel>
-                {product.productImages.map((picture) => (
-                  <Carousel.Item key={product._id}>
+                {product.productImages.map((picture, idx) => (
+                  <Carousel.Item key={`${product._id}-${idx}`}>
                     <div className="productImageContainer">
                       <Card.Img
                         className="imageHolder_img"

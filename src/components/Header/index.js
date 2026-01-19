@@ -32,20 +32,27 @@ export default function Header(props) {
 
   //calling action to login the user
   const userLogin = () => {
-    try {
-      dispatch(login({ email, password }));
-      console.log({ auth: auth });
-      setLoginModal(false);
-      setEmail("");
-      setPassword("");
-    } catch (error) {
-      console.log({ error });
-    }
+    dispatch(login({ email, password }))
+      .then(() => {
+        console.log({ auth: auth });
+        setLoginModal(false);
+        setEmail("");
+        setPassword("");
+      })
+      .catch((error) => {
+        console.log({ error });
+      });
   };
 
   //calling the action to logout the user
   const logout = () => {
-    dispatch(signout());
+    dispatch(signout())
+      .then(() => {
+        // Logout successful
+      })
+      .catch((error) => {
+        console.log({ error });
+      });
   };
 
   const myRef = useRef(null);

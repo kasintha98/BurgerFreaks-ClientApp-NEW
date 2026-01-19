@@ -35,6 +35,7 @@ export const login = (user) => {
           draggable: true,
           progress: undefined,
         });
+        return res.data;
       } else {
         dispatch({
           type: authConstants.LOGIN_FAILURE,
@@ -42,14 +43,15 @@ export const login = (user) => {
         });
 
         toast.error(res.data.error || "Something went wrong!");
+        throw new Error(res.data.error || "Something went wrong!");
       }
     } catch (error) {
-      console.log(error?.response?.data);
       toast.error(error?.response?.data.error || "Something went wrong!");
       dispatch({
         type: authConstants.LOGIN_FAILURE,
         payload: { error: error?.response?.data.error },
       });
+      throw error;
     }
   };
 };
@@ -69,6 +71,7 @@ export const addAddressSign = (payload) => {
           type: userConstants.ADD_USER_ADDRESS_SUCCESS,
           payload: { addressNew },
         });
+        return res.data;
       } else {
         const { error } = res.data;
         dispatch({
@@ -76,14 +79,15 @@ export const addAddressSign = (payload) => {
           payload: { error: error || "Something went wrong!"},
         });
         toast.error(error || "Something went wrong!");
+        throw new Error(error || "Something went wrong!");
       }
     } catch (error) {
-      console.log(error?.response?.data);
       toast.error(error?.response?.data.error || "Something went wrong!");
       dispatch({
         type: userConstants.ADD_USER_ADDRESS_FAILURE,
         payload: { error: error?.response?.data.error },
       });
+      throw error;
     }
   };
 };
@@ -128,20 +132,22 @@ export const signup = (user) => {
           draggable: true,
           progress: undefined,
         });
+        return res.data;
       } else {
         dispatch({
           type: authConstants.SIGNUP_FAILURE,
           payload: { error: res.data.error || "Something went wrong!" },
         });
         toast.error(res.data.error || "Something went wrong!");
+        throw new Error(res.data.error || "Something went wrong!");
       }
     } catch (error) {
-      console.log(error?.response?.data);
       toast.error(error?.response?.data.error || "Something went wrong!");
       dispatch({
         type: authConstants.SIGNUP_FAILURE,
         payload: { error: error?.response?.data.error },
       });
+      throw error;
     }
   };
 };
@@ -159,11 +165,13 @@ export const isUserLoggedIn = () => {
           user,
         },
       });
+      return { token, user };
     } else {
       dispatch({
         type: authConstants.LOGIN_FAILURE,
-        payload: { error: "Failed to login (2)!" },
+        payload: { error: "Failed to login!" },
       });
+      throw new Error("Failed to login!");
     }
   };
 };
@@ -176,5 +184,6 @@ export const signout = () => {
 
     dispatch({ type: authConstants.LOGOUT_SUCCESS });
     dispatch({ type: cartConstants.RESET_CART, payload: { cartItems: {} } });
+    return {};
   };
 };

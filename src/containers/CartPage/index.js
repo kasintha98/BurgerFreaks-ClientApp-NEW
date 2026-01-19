@@ -24,24 +24,48 @@ export default function CartPage(props) {
   //calling action to get the cart items
   useEffect(() => {
     if (auth.authenticate) {
-      dispatch(getCartItems());
+      dispatch(getCartItems())
+        .then(() => {
+          console.log("Cart items loaded successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [auth.authenticate]);
 
   const onQuantityIncrement = (_id, qty) => {
     console.log({ _id, qty });
     const { name, price, img, offer } = cartItems[_id];
-    dispatch(addToCart({ _id, name, price, img, offer }, 1));
+    dispatch(addToCart({ _id, name, price, img, offer }, 1))
+      .then(() => {
+        console.log("Item added to cart");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onQuantityDecrement = (_id, qty) => {
     console.log({ _id, qty });
     const { name, price, img, offer } = cartItems[_id];
-    dispatch(addToCart({ _id, name, price, img, offer }, -1));
+    dispatch(addToCart({ _id, name, price, img, offer }, -1))
+      .then(() => {
+        console.log("Item removed from cart");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onRemoveCartItem = (_id) => {
-    dispatch(removeCartItem({ productId: _id }));
+    dispatch(removeCartItem({ productId: _id }))
+      .then(() => {
+        console.log("Cart item removed");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

@@ -65,7 +65,13 @@ export default function AddressForm(props) {
       },
     };
     console.log(payload);
-    dispatch(addAddress(payload));
+    dispatch(addAddress(payload))
+      .then(() => {
+        console.log("Address added successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setSubmitFlag(true);
   };
 

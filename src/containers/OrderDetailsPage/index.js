@@ -17,7 +17,29 @@ export default function OrderDetailsPage(props) {
 
   useEffect(() => {
     const payload = { orderId: props.match.params.orderId };
-    dispatch(getOrder(payload));
+    
+    // Initial call
+    dispatch(getOrder(payload))
+      .then(() => {
+        console.log("Order details loaded successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // Set up interval to refresh every 5 seconds
+    const interval = setInterval(() => {
+      dispatch(getOrder(payload))
+        .then(() => {
+          console.log("Order details refreshed successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, 5000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (

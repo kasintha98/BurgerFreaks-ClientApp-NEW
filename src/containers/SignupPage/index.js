@@ -101,7 +101,13 @@ export default function SignupPage() {
     };
     console.log(payload);
 
-    dispatch(signup(user));
+    dispatch(signup(user))
+      .then(() => {
+        // Signup successful
+      })
+      .catch((error) => {
+        console.log({ error });
+      });
   };
 
   return (

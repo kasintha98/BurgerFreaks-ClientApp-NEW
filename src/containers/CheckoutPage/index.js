@@ -102,7 +102,13 @@ export default function CheckoutPage() {
     };
 
     console.log(payload);
-    dispatch(addOrder(payload));
+    dispatch(addOrder(payload))
+      .then(() => {
+        console.log("Order placed successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setOrderConfirmation(true);
     localStorage.setItem("paid", null);
   };
@@ -111,8 +117,20 @@ export default function CheckoutPage() {
   console.log(localStorage.getItem("paid"));
 
   useEffect(() => {
-    auth.authenticate && dispatch(getAddress());
-    auth.authenticate && dispatch(getCartItems());
+    auth.authenticate && dispatch(getAddress())
+      .then(() => {
+        console.log("Addresses loaded successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    auth.authenticate && dispatch(getCartItems())
+      .then(() => {
+        console.log("Cart items loaded successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [auth.authenticate]);
 
   useEffect(() => {
@@ -201,7 +219,7 @@ export default function CheckoutPage() {
                       </Row>
                     ) : (
                       newAddress.map((adr) => (
-                        <Row>
+                        <Row key={adr._id}>
                           <Col sm={1}>
                             <div>
                               <input

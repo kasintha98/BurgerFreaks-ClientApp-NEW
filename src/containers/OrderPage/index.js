@@ -25,7 +25,13 @@ export default function OrderPage(props) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    dispatch(getOrders());
+    dispatch(getOrders())
+      .then(() => {
+        console.log("Orders loaded successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   console.log(user);
@@ -48,7 +54,13 @@ export default function OrderPage(props) {
       rating: ratingVal,
     };
 
-    dispatch(addFeedback(feedbackObj));
+    dispatch(addFeedback(feedbackObj))
+      .then(() => {
+        console.log("Feedback added successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     setRatingVal(0);
     setFeedbackDes("");
@@ -114,7 +126,7 @@ export default function OrderPage(props) {
             <>
               {user.orders.map((order) => {
                 return order.items.map((item) => (
-                  <Card style={{ width: "100%" }}>
+                  <Card key={item._id} style={{ width: "100%" }}>
                     <Row>
                       <Col sm={3}>
                         <Card.Img

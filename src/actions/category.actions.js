@@ -18,6 +18,7 @@ export const getAllCategory = () => {
           type: categoryConstants.GET_ALL_CATEGORIES_SUCCESS,
           payload: { categories: categories },
         });
+        return res.data;
       } else {
         dispatch({
           type: categoryConstants.GET_ALL_CATEGORIES_FAILURE,
@@ -26,9 +27,9 @@ export const getAllCategory = () => {
           },
         });
         toast.error("Something went wrong!");
+        throw new Error(res.data.error || "Something went wrong!");
       }
     } catch (error) {
-      console.log(error?.response?.data);
       toast.error(error?.response?.data?.error || "Something went wrong!");
       dispatch({
         type: categoryConstants.GET_ALL_CATEGORIES_FAILURE,
@@ -36,6 +37,7 @@ export const getAllCategory = () => {
           error: error?.response?.data.error,
         },
       });
+      throw error;
     }
 
   };

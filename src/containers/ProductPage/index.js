@@ -26,14 +26,26 @@ export default function ProductPage(props) {
   useEffect(() => {
     const { match } = props;
 
-    dispatch(getSpecificProductBySlug(match.params.slug));
+    dispatch(getSpecificProductBySlug(match.params.slug))
+      .then(() => {
+        console.log("Product details loaded successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     setLoading(false);
   }, []);
 
   useEffect(() => {
     if (product._id !== undefined) {
-      dispatch(getFeedbacks(product._id));
+      dispatch(getFeedbacks(product._id))
+        .then(() => {
+          console.log("Feedbacks loaded successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [product._id]);
 
@@ -92,8 +104,8 @@ export default function ProductPage(props) {
         <Row>
           <Col sm={4}>
             <Carousel>
-              {images.map((picture) => (
-                <div>
+              {images.map((picture, idx) => (
+                <div key={idx}>
                   <img src={generatePublicUrl(picture.img)} alt="" />
                 </div>
               ))}
@@ -228,7 +240,13 @@ export default function ProductPage(props) {
               onClick={() => {
                 const { _id, name, price, offer } = product;
                 const img = product.productImages[0].img;
-                dispatch(addToCart({ _id, name, price, img, offer }, qtyInput));
+                dispatch(addToCart({ _id, name, price, img, offer }, qtyInput))
+                  .then(() => {
+                    console.log("Item added to cart");
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
                 props.history.push("/cart");
               }}
             >

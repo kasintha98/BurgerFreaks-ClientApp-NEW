@@ -18,6 +18,7 @@ export const getFeedbacks = (productId) => {
           type: feedbackConstants.GET_FEEDBACK_SUCCESS,
           payload: { feedback: feedback },
         });
+        return res.data;
       } else {
         dispatch({
           type: feedbackConstants.GET_FEEDBACK_FAILURE,
@@ -26,9 +27,9 @@ export const getFeedbacks = (productId) => {
           },
         });
         toast.error("Something went wrong!");
+        throw new Error(res.data.error || "Something went wrong!");
       }
     } catch (error) {
-      console.log(error?.response?.data);
       toast.error(error?.response?.data.error || "Something went wrong!");
       dispatch({
         type: feedbackConstants.GET_FEEDBACK_FAILURE,
@@ -36,6 +37,7 @@ export const getFeedbacks = (productId) => {
           error: error?.response?.data.error,
         },
       });
+      throw error;
     }
 
   };
@@ -63,6 +65,7 @@ export const addFeedback = (feedback) => {
           draggable: true,
           progress: undefined,
         });
+        return res.data;
       } else {
         dispatch({
           type: categoryConstants.ADD_NEW_CATEGORY_FAILURE,
@@ -70,15 +73,15 @@ export const addFeedback = (feedback) => {
         });
 
         toast.error(res.data.error || "Something went wrong!");
+        throw new Error(res.data.error || "Something went wrong!");
       }
-      console.log(res);
     } catch (error) {
-      console.log(error?.response?.data);
       toast.error(error?.response?.data.error || "Something went wrong!");
       dispatch({
         type: categoryConstants.ADD_NEW_CATEGORY_FAILURE,
         payload: error?.response?.data.error,
       });
+      throw new Error(error?.response?.data.error || "Something went wrong!");
     }
   };
 };
