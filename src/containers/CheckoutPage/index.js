@@ -10,7 +10,7 @@ import PriceDetails from "../../components/PriceDetails";
 import Paypal from "../../components/Paypal";
 import CartPage from "../CartPage";
 
-export default function CheckoutPage() {
+export default function CheckoutPage(props) {
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart);
@@ -25,10 +25,12 @@ export default function CheckoutPage() {
 
   const dispatch = useDispatch();
 
-  //aaaa forr change
-  //aaaaaaaaaaaaaaaaaaaaaa
-  //AAAA
-  //aaa
+  useEffect(() => {
+    //If user not logged in redirect to home page
+    if (!auth.authenticate) {
+      props.history.push("/");
+    }
+  }, []);
 
   //seting new address
   const selectAddress = (adr) => {
@@ -77,7 +79,7 @@ export default function CheckoutPage() {
     ) {
       return offer + cart.cartItems[key].offer * cart.cartItems[key].qty;
     },
-    0);
+      0);
 
     const deliveryCharges = 150;
 
@@ -288,7 +290,7 @@ export default function CheckoutPage() {
                     </Row>
                     <br></br>
                     {localStorage.getItem("paid") &&
-                    localStorage.getItem("paid") !== "null" ? (
+                      localStorage.getItem("paid") !== "null" ? (
                       <Alert variant={`success`}>
                         Online Payment Successfull!
                       </Alert>
@@ -348,7 +350,7 @@ export default function CheckoutPage() {
                                   return (
                                     offer +
                                     cart.cartItems[key].offer *
-                                      cart.cartItems[key].qty
+                                    cart.cartItems[key].qty
                                   );
                                 },
                                 0
@@ -397,7 +399,7 @@ export default function CheckoutPage() {
                     ) {
                       return qty + cart.cartItems[key].qty;
                     },
-                    0)}
+                      0)}
                     totalPrice={Object.keys(cart.cartItems).reduce(
                       (totalPrice, key, deli) => {
                         const { price, qty } = cart.cartItems[key];
@@ -415,7 +417,7 @@ export default function CheckoutPage() {
                         cart.cartItems[key].offer * cart.cartItems[key].qty
                       );
                     },
-                    0)}
+                      0)}
                   ></PriceDetails>
                 </div>
                 {confirmAddress && paymentOption ? (

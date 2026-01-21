@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Input from "../../components/Input";
@@ -18,7 +18,6 @@ import banner from "../../img/bannar.jpg";
 
 export default function ProfilePage(props) {
   const auth = useSelector((state) => state.auth);
-
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -26,8 +25,14 @@ export default function ProfilePage(props) {
   const [contactNumber, setContactNumberNumber] = useState("");
   const [nic, setNicNumber] = useState("");
   const [address, setAddress] = useState("");
-
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    //If user not logged in redirect to home page
+    if (!auth.authenticate) {
+      props.history.push("/");
+    }
+  }, []);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

@@ -12,10 +12,16 @@ var dateFormat = require("dateformat");
 export default function OrderDetailsPage(props) {
   const dispatch = useDispatch();
   const orderDetails = useSelector((state) => state.user.orderDetails);
+  const auth = useSelector((state) => state.auth);
 
   console.log({ props });
 
   useEffect(() => {
+    //If user not logged in redirect to home page
+    if (!auth.authenticate) {
+      props.history.push("/");
+    }
+
     const payload = { orderId: props.match.params.orderId };
     
     // Initial call

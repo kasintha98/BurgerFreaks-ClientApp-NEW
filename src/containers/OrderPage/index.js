@@ -25,6 +25,11 @@ export default function OrderPage(props) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
+    //If user not logged in redirect to home page
+    if (!auth.authenticate) {
+      props.history.push("/");
+    }
+
     dispatch(getOrders())
       .then(() => {
         console.log("Orders loaded successfully");
