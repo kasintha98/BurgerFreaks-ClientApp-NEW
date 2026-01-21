@@ -193,7 +193,7 @@ export default function CartPage(props) {
 
                 <Row>
                   <Col>
-                    <Link to="/" className="btn btn-primary">
+                    <Link to="/#menu" className="btn btn-primary">
                       Shop More!
                     </Link>
                   </Col>
