@@ -184,6 +184,6 @@ export const signout = () => {
 
     dispatch({ type: authConstants.LOGOUT_SUCCESS });
     dispatch({ type: cartConstants.RESET_CART, payload: { cartItems: {} } });
-    return {};
+    return {msg: "Logout successful"};
   };
 };

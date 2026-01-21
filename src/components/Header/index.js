@@ -1,10 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Navbar,
-  Button,
   Nav,
-  FormControl,
-  Form,
   Dropdown,
   DropdownButton,
   Container,
@@ -15,7 +12,7 @@ import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "../../img/logo.jpg";
 import { login, signout } from "../../actions";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 import { useScrollSection } from "react-scroll-section";
 import CartNum from "../UI/CartNum";
 import { ToastContainer } from "react-toastify";
@@ -27,6 +24,8 @@ export default function Header(props) {
 
   const auth = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart);
+  const history = useHistory();
+  const location = useLocation();
 
   const dispatch = useDispatch();
 
@@ -49,20 +48,67 @@ export default function Header(props) {
     dispatch(signout())
       .then(() => {
         // Logout successful
+        history.push("/");
       })
       .catch((error) => {
         console.log({ error });
+        history.push("/");
       });
   };
 
-  const myRef = useRef(null);
-  const executeScroll = () => myRef.current.scrollIntoView();
+  //go to profile page
+  const goToProfile = () => {
+    console.log("Go to profile");
+    // Clear hash before navigating
+    if (window.location.hash) {
+      window.history.replaceState(null, null, window.location.pathname);
+    }
+    history.push("/profile");
+  }
 
   const homeSection = useScrollSection("home");
   const aboutSection = useScrollSection("about");
   const chefSection = useScrollSection("chef");
   const menuSection = useScrollSection("menu");
   const contactSection = useScrollSection("contact");
+
+  // Map section names to section objects
+  const sectionMap = {
+    about: aboutSection,
+    chef: chefSection,
+    menu: menuSection,
+    contact: contactSection,
+    home: homeSection,
+  };
+
+  // Handle section scrolling based on URL hash
+  useEffect(() => {
+    if (location.pathname === "/") {
+      // Get the hash from the URL (e.g., #about from /#about)
+      const hash = window.location.hash.replace("#", "");
+      if (hash && sectionMap[hash]) {
+        setTimeout(() => {
+          sectionMap[hash].onClick();
+        }, 100);
+      }
+    } else {
+      // Clear hash when navigating away from home
+      if (window.location.hash) {
+        window.history.replaceState(null, null, window.location.pathname);
+      }
+    }
+  }, [location.pathname]);
+
+  // Handle clicking on section links
+  const handleSectionClick = (sectionName) => {
+    if (location.pathname !== "/") {
+      // Navigate to home with hash
+      history.push(`/#${sectionName}`);
+    } else {
+      // Already on home, just scroll
+      sectionMap[sectionName].onClick();
+    }
+  };
 
   const renderLoggedInMenu = () => {
     return (
@@ -76,28 +122,28 @@ export default function Header(props) {
           Home
         </NavLink>
         <Nav.Link
-          onClick={aboutSection.onClick}
+          onClick={() => handleSectionClick("about")}
           selected={aboutSection.selected}
         >
           About
         </Nav.Link>
         <Nav.Link
           className="nav-link"
-          onClick={chefSection.onClick}
+          onClick={() => handleSectionClick("chef")}
           selected={chefSection.selected}
         >
           Chef
         </Nav.Link>
         <Nav.Link
           className="nav-link"
-          onClick={menuSection.onClick}
+          onClick={() => handleSectionClick("menu")}
           selected={menuSection.selected}
         >
           Menu
         </Nav.Link>
         <Nav.Link
           className="nav-link"
-          onClick={contactSection.onClick}
+          onClick={() => handleSectionClick("contact")}
           selected={contactSection.selected}
         >
           Contact
@@ -111,15 +157,11 @@ export default function Header(props) {
           <i className="fa fa-cart-plus"></i> Cart
         </NavLink>
         <DropdownButton title={`${auth.user.fullName}`} variant="dark">
-          <Dropdown.Item>
-            <Link to="/profile">
-              <i className="fa fa-id-badge"></i> Profile
-            </Link>
+          <Dropdown.Item key="profile" onClick={() => goToProfile()}>
+            <i className="fa fa-id-badge"></i> Profile
           </Dropdown.Item>
-          <Dropdown.Item>
-            <Link onClick={() => logout()} to="/">
-              <i className="fa fa-sign-out"></i> Logout
-            </Link>
+          <Dropdown.Item key="logout" onClick={() => logout()}>
+            <i className="fa fa-sign-out"></i> Logout
           </Dropdown.Item>
         </DropdownButton>
       </>
@@ -133,28 +175,28 @@ export default function Header(props) {
           Home
         </NavLink>
         <Nav.Link
-          onClick={aboutSection.onClick}
+          onClick={() => handleSectionClick("about")}
           selected={aboutSection.selected}
         >
           About
         </Nav.Link>
         <Nav.Link
           className="nav-link"
-          onClick={chefSection.onClick}
+          onClick={() => handleSectionClick("chef")}
           selected={chefSection.selected}
         >
           Chef
         </Nav.Link>
         <Nav.Link
           className="nav-link"
-          onClick={menuSection.onClick}
+          onClick={() => handleSectionClick("menu")}
           selected={menuSection.selected}
         >
           Menu
         </Nav.Link>
         <Nav.Link
           className="nav-link"
-          onClick={contactSection.onClick}
+          onClick={() => handleSectionClick("contact")}
           selected={contactSection.selected}
         >
           Contact
@@ -222,15 +264,6 @@ export default function Header(props) {
               <img width="40px" src={logo} alt="logo" />
             </Link>
           </Navbar.Brand>
-          {/* <Form className="d-flex">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="mr-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form> */}
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -245,7 +278,6 @@ export default function Header(props) {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
       {renderLoginModal()}
     </div>
   );
